@@ -1,10 +1,9 @@
 import React from 'react'
-import * as showdown from 'showdown'
-import * as axios from 'axios'
-import * as oAuth from 'oauthio-web'
+import showdown from 'showdown'
+import axios from 'axios'
+import { API_URL } from '../config'
 
-const url = 'http://localhost:4000/'
-const clientId = '37b7f18f970f2b8bb52e'
+
 
 class Editor extends React.Component {
  
@@ -41,65 +40,25 @@ class EditorPage extends React.Component {
     this.setState(state => ({ ...state, content: value, html: converter.makeHtml(value) }))
   }
   handleClick = async () => {
-    const response = await axios.post(`${url}post/create/`, {
+    const repo = this.props.repository
+
+    if (typeof repo === 'undefined') {
+      throw new Error('invalid repository prop on editor')
+    }
+    
+    const response = await axios.post(`${API_URL}/post/create/`, {
       title: this.state.title,
-      content: this.state.content
+      content: this.state.content,
+      repo_name: repo.name,
+      git_url: repo.git_url
     });
     console.log(response);
-  }
-  handleLogin = async () => {
-    console.log('SEND LOGIn')
-    // const response = await axios.get(`https://github.com/login/oauth/authorize?client_id=${clientId}`)
-
-    // const win = window.open(`https://github.com/login/oauth/authorize?client_id=${clientId}`, '_blank')
-    const loginUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}`;
-    // window.location.href = loginUrl
-    // const code = window.location.pathname.match(/\?code=(.*)/)[1]
-    
-    // const code = new Promise((resolve, reject) => {
-    //   const popup = window.open(loginUrl, '', 'height=600,width=300')
-    //   popup.setInterval(() => {
-    //     try {
-          
-    //       console.log('EXECUTING')
-    //       // const params = popup.location.href
-          
-    //       console.log('EXECUTED ===>', popup.location.href)
-    //       if (!popup || popup.closed !== false) {
-    //         // this.close();
-    //         reject(new Error('The popup was closed'));
-    //         return;
-    //       }
-
-    //       // if (popup.location.href === loginUrl || popup.location.pathname === 'blank') {
-
-    //       //   return;
-    //       // }
-
-          
-    //       resolve('asdas');
-          
-    //     } catch (error) {
-    //       /*
-    //        * Ignore DOMException: Blocked a frame with origin from accessing a
-    //        * cross-origin frame.
-    //        */
-    //     }
-    //   }, 50)
-    // })
-    // console.log(await code)
-  }
-  handleLoginSuccess = (response) => {
-    console.log(response)
-  }
-  handleLoginFail = (response) => {
-    console.log(response)
   }
   render() {
     return (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {/* <GithubLogin clientId="37b7f18f970f2b8bb52e" onSuccess={this.handleLoginSuccess} onFailure={this.handleLoginFail} /> */}
-        <button onClick={this.handleLogin}>LOGIN</button>
+        
         <input type="text" onChange={this.handleTitleChange}></input>
         <Editor content={this.state.html} handleChange={this.handleEditorChange} />
         <button onClick={this.handleClick}>Enviar</button>
