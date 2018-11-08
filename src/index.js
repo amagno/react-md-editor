@@ -6,7 +6,6 @@ import registerServiceWorker from './registerServiceWorker';
 import { verifyIsAccessToken } from './Lib/github-auth';
 
 
-
 verifyIsAccessToken();
 
 ReactDOM.render(<App />, document.getElementById('root'));

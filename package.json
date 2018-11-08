@@ -9,7 +9,8 @@
     "react-dom": "^16.5.1",
     "react-github-login": "^1.0.3",
     "react-scripts": "1.1.5",
-    "showdown": "^1.8.6"
+    "showdown": "^1.8.6",
+    "socket.io-client": "^2.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
