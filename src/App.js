@@ -5,9 +5,10 @@ import Login from './Pages/Login';
 import { verifyIsLogged, setRepoInfo, getToken, setRepoToken, getRepoInfo, removeRepoInfo, removeRepoToken } from './Lib/github-auth';
 import { API_URL } from './config'
 import axios from 'axios'
+import { socket } from './Lib/socket';
 
 
-import io from 'socket.io-client';
+
 
 
 
@@ -19,8 +20,6 @@ class App extends Component {
     loading: false,
   }
   componentDidMount() {
-    const socket = io('http://localhost:4000');
-
     socket.on('repositories-removed', () => {
       console.log('repository removed')
       this.setState(state => ({ ...state, repoInfo: undefined }))
@@ -44,6 +43,9 @@ class App extends Component {
     if (typeof token !== 'string' || typeof name !== 'string') {
       throw new Error('repository token is invalid')
     }
+
+    socket.emit('add', token);
+
     setRepoInfo(repo)
     setRepoToken(token, name)
     this.setState(state => ({ ...state, repoInfo: repo, loading: false }))

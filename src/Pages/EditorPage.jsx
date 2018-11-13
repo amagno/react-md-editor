@@ -3,6 +3,7 @@ import showdown from 'showdown'
 import axios from 'axios'
 import { API_URL } from '../config'
 import { verifyRepoSet, getRepoToken } from '../Lib/github-auth';
+import DeployForm from '../Components/DeployForm';
 
 
 
@@ -13,9 +14,9 @@ class Editor extends React.Component {
       <div style={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
         <div style={{ width: '50%', display: 'flex', flexDirection: 'column', padding: '1em', border: '1px solid black' }}>
           <span>Editor</span>
-          <textarea value={this.props.value} style={{ width: '800px', height: '600px' }} onChange={this.props.handleChange}></textarea>
+          <textarea value={this.props.value} style={{ width: '100%', height: '600px' }} onChange={this.props.handleChange}></textarea>
         </div>
-        <div style={{ padding: '1em', display: 'flex', flexDirection: 'column', border: '1px solid black', width: '100%' }}>
+        <div style={{ padding: '1em', display: 'flex', flexDirection: 'column', border: '1px solid black', width: '50%' }}>
           Conteúdo
           <div dangerouslySetInnerHTML={{ __html: this.props.content }}></div>
         </div>
@@ -120,8 +121,11 @@ class EditorPage extends React.Component {
               ))}
             </ul>
           </div>
-        </div>
 
+          <DeployForm />
+          
+        </div>
+        
 
         
       </div>

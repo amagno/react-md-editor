@@ -6,7 +6,7 @@ const redirectUri = 'http://localhost:4000/oauth/redirect'
 
 class Login extends React.Component {
   handleLogin = async () => {
-    const loginUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}`;
+    const loginUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=public_repo`;
     window.location.href = loginUrl
   }
   handleLogout = () => {
